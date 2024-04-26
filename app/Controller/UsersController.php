@@ -20,9 +20,10 @@ class UsersController extends AppController {
     public function login(){
         if($this->request->is('post')){
             if($this->Auth->login()){
+                $this->Flash->success('Login successful.');
                 $this->redirect($this->Auth->redirectUrl());
             }else{  
-                $this->Flash->error('Your username/password combination was not correct.');
+                $this->set('error', 'Invalid email or password. Please try again.');
             }
         }
     }
@@ -98,6 +99,10 @@ class UsersController extends AppController {
         }
 
         return $this->redirect(array('action' => 'index'));
+    }
+
+    public function register_success(){
+
     }
 
 }

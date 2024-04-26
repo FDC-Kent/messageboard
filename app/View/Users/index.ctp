@@ -1,7 +1,6 @@
 <table>
     <thead>
         <th>Name</th>
-        <th>Username</th>
         <th>Email</th>
         <th>Action</th>
     </thead>
@@ -9,7 +8,6 @@
         <?php foreach($users as $user): ?>
         <tr>
             <td><?php echo $user['User']['name']?></td>
-            <td><?php echo $user['User']['username']?></td>
             <td><?php echo $user['User']['email']?></td>
             <td>
                 <?php echo $this->Html->link('view', array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?>

@@ -19,7 +19,7 @@ $cakeDescription = __d('cake_dev', 'MessageBoard');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<?php echo $this->Html->charset(); ?>
@@ -31,52 +31,85 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php
 	echo $this->Html->meta('icon');
 
-	echo $this->Html->css('cake.generic');
-	// echo $this->Html->css('bootstrap');
+	// echo $this->Html->css('cake.generic');
+	echo $this->Html->css('bootstrap');
 
 	echo $this->fetch('meta');
 	echo $this->fetch('css');
 	echo $this->fetch('script');
+
+	echo $this->Html->script('angular');
+	echo $this->Html->script('angular_route');
+	echo $this->Html->script('angular_resources');
+
+	echo $this->Html->script('angular_app');
+	echo $this->Html->script('user_service');
+	echo $this->Html->script('user_controller');
 	?>
 </head>
 
 <body>
 	<div id="container">
 		<div id="header">
-			<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-					<a class="navbar-brand" href="#">Message Board</a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<!-- Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container">
+					<!-- Navbar brand -->
+					<?php echo $this->Html->link('Message Board', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'navbar-brand']); ?>
+
+					<!-- Navbar toggler -->
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									User
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<li><a class="dropdown-item" href="#">User Profle</a></li>
-									<li><a class="dropdown-item" href="#">Account</a></li>
-									<li>
-										<hr class="dropdown-divider">
-									</li>
-									<li><a class="dropdown-item" href="#">Logouts</a></li>
-								</ul>
+
+					<!-- Navbar links -->
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav ms-auto">
+							<li class="nav-item">
+								<?php echo $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'nav-link']); ?>
 							</li>
+							<li class="nav-item">
+								<?php echo $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['class' => 'nav-link']); ?>
+							</li>
+							<?php if ($is_logged_in) : ?>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+										Welcome <?php echo $current_user['name']; ?>
+									</a>
+									<ul class="dropdown-menu dropdown-menu-lg-end">
+										<li><a class="dropdown-item" href="#">User Profle</a></li>
+										<li><a class="dropdown-item" href="#">Account</a></li>
+										<li>
+											<hr class="dropdown-divider">
+										</li>
+										<li>
+											<?php echo $this->Html->link(
+												'logout',
+												array(
+													'controller' => 'users',
+													'action' => 'logout'
+												),
+												array('class' => 'dropdown-item')
+											)
+											?>
+										</li>
+									</ul>
+								</li>
+							<?php else : ?>
+								<?php echo $this->Html->link(
+									'login',
+									array('controller' => 'users', 'action' => 'login'),
+									array('class' => 'btn btn-primary')
+								); ?>
+							<?php endif; ?>
 						</ul>
 					</div>
 				</div>
-			</nav> -->
-			<h1><?php echo $this->Html->link($cakeDescription, 'https://cakephp.org'); ?></h1>
+			</nav>
+			<!-- <h1><?php echo $this->Html->link($cakeDescription, 'https://cakephp.org'); ?></h1> -->
 		</div>
 		<div id="content">
 			<div style="text-align: right;">
-				<?php if ($is_logged_in) : ?>
-					Welcome <?php echo $current_user['username']; ?> . <?php echo $this->Html->link('logout', array('controller' => 'users', 'action' => 'logout')) ?>;
-				<?php else : ?>
-					<?php echo $this->Html->link('login', array('controller' => 'users', 'action' => 'login')); ?>
-				<?php endif; ?>
 				<?php echo $this->Flash->render(); ?>
 				<?php echo $this->Flash->render('auth') ?>
 
@@ -84,19 +117,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<!-- <?php echo $this->Html->link(
-						$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-						'https://cakephp.org/',
-						array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-					);
-					?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p> -->
+
 		</div>
 	</div>
-	<!-- <?php echo $this->element('sql_dump'); ?> -->
-	<!-- <?php echo $this->Html->script('bootstrap'); ?> -->
+	<script type="text/javascript">
+		const BASE_URL = '<?php echo $this->webroot; ?>';
+	</script>
+	<?php echo $this->Html->script('jquery'); ?>ÍÍ
+	<?php echo $this->Html->script('bootstrap'); ?>
 </body>
 
 </html>

@@ -37,7 +37,11 @@ class AppController extends Controller {
             'loginRedirect'=>array('controller' => 'users', 'action'=>'index'),
             'logoutRedirect'=>array('controller' => 'users', 'action'=>'index'),
             'authError'=>"You can't access that page",
-            'authorize' =>array('Controller')
+            'authenticate' => array(
+                'Form' => array(
+                    'fields' => array('username' => 'email', 'password' => 'password')
+                )
+            )
         ),
         'Flash',
         'DebugKit.Toolbar'

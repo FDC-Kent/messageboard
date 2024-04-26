@@ -31,6 +31,10 @@
  */
 	Router::connect('/posts', array('controller' => 'posts', 'action' => 'index'));
 	Router::connect('/users', array('controller' => 'users', 'action' => 'index'));
+
+	Router::mapResources('Api');
+
+	Router::connect('/api/user/register', array('controller' => 'api', 'action' => 'register'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
