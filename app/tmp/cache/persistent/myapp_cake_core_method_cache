@@ -1,2 +1,2 @@
-1714388521
+1714400448
 a:3:{i:0;b:0;s:4:"name";a:5:{s:32:"37660c9617f2a1604fbff30849e2ea04";s:14:"`messageboard`";s:32:"eb98acc5d2bf00c26b606315d9154006";s:15:"`user_profiles`";s:32:"47eb7bb09414c64f779510914712b6ee";s:7:"`count`";s:32:"e726d4883fe8800dcf31f153cef864d4";s:18:"`UserProfile`.`id`";s:32:"a7337fff2a22c7b16414036e15851cad";s:13:"`UserProfile`";}s:6:"fields";a:1:{s:32:"dd0d782b6651b3f48afeaf7e5cd5038a";a:1:{i:0;s:19:"COUNT(*) AS `count`";}}}

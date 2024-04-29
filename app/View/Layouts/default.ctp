@@ -32,19 +32,21 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->meta('icon');
 
 	// echo $this->Html->css('cake.generic');
-	echo $this->Html->css('bootstrap');
+	
 	echo $this->Html->css('style');
+	echo $this->Html->css('bootstrap');
+	echo $this->Html->css('jquery-ui');
 
 	echo $this->fetch('meta');
 	echo $this->fetch('css');
 
 	echo $this->Html->script('angular');
-	echo $this->Html->script('angular_route');
-	echo $this->Html->script('angular_resources');
+	echo $this->Html->script('angular-route');
+	echo $this->Html->script('angular-resources');
 
-	echo $this->Html->script('angular_app');
-	echo $this->Html->script('user_service');
-	echo $this->Html->script('user_controller');
+	echo $this->Html->script('angular-app');
+	echo $this->Html->script('user-service');
+	echo $this->Html->script('user-controller');
 	?>
 </head>
 
@@ -168,6 +170,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php 
 		echo $this->Html->script('jquery'); 
 		echo $this->Html->script('bootstrap');
+		echo $this->Html->script('jquery-ui');
 		echo $this->fetch('script');
 	?>
 </body>
