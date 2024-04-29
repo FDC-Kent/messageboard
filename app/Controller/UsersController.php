@@ -19,7 +19,11 @@ class UsersController extends AppController {
     }
     public function login(){
         if($this->request->is('post')){
+
             if($this->Auth->login()){
+                $this->User->id = $this->Auth->user('id');
+                $this->User->saveField('last_login', date('Y-m-d H:i:s'));
+
                 $this->Flash->success('Login successful.');
                 $this->redirect($this->Auth->redirectUrl());
             }else{  

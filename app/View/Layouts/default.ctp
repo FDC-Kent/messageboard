@@ -33,10 +33,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 	// echo $this->Html->css('cake.generic');
 	echo $this->Html->css('bootstrap');
+	echo $this->Html->css('style');
 
 	echo $this->fetch('meta');
 	echo $this->fetch('css');
-	echo $this->fetch('script');
 
 	echo $this->Html->script('angular');
 	echo $this->Html->script('angular_route');
@@ -66,10 +66,24 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					<div class="collapse navbar-collapse" id="navbarNav">
 						<ul class="navbar-nav ms-auto">
 							<li class="nav-item">
-								<?php echo $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'nav-link']); ?>
+								<?php echo $this->Html->link(
+									'Home',
+									array(
+										'controller' => 'Pages',
+										'action' => 'home'
+									),
+									array('class' => 'nav-link')
+								); ?>
 							</li>
 							<li class="nav-item">
-								<?php echo $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['class' => 'nav-link']); ?>
+								<?php echo $this->Html->link(
+									'Message',
+									array(
+										'controller' => 'messages',
+										'action' => 'index'
+									),
+									array('class' => 'nav-link')
+								); ?>
 							</li>
 							<?php if ($is_logged_in) : ?>
 								<li class="nav-item dropdown">
@@ -77,8 +91,36 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 										Welcome <?php echo $current_user['name']; ?>
 									</a>
 									<ul class="dropdown-menu dropdown-menu-lg-end">
-										<li><a class="dropdown-item" href="#">User Profle</a></li>
-										<li><a class="dropdown-item" href="#">Account</a></li>
+										<li>
+											<?php echo $this->Html->link(
+												'Profile',
+												array(
+													'controller' => 'userprofiles',
+													'action' => 'index'
+												),
+												array('class' => 'dropdown-item')
+											) ?>
+										</li>
+										<li>
+											<?php echo $this->Html->link(
+												'Change Email Address',
+												array(
+													'controller' => 'userprofiles',
+													'action' => 'index'
+												),
+												array('class' => 'dropdown-item')
+											) ?>
+										</li>
+										<li>
+											<?php echo $this->Html->link(
+												'Change Password',
+												array(
+													'controller' => 'userprofiles',
+													'action' => 'index'
+												),
+												array('class' => 'dropdown-item')
+											) ?>
+										</li>
 										<li>
 											<hr class="dropdown-divider">
 										</li>
@@ -123,8 +165,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<script type="text/javascript">
 		const BASE_URL = '<?php echo $this->webroot; ?>';
 	</script>
-	<?php echo $this->Html->script('jquery'); ?>ÍÍ
-	<?php echo $this->Html->script('bootstrap'); ?>
+	<?php 
+		echo $this->Html->script('jquery'); 
+		echo $this->Html->script('bootstrap');
+		echo $this->fetch('script');
+	?>
 </body>
 
 </html>

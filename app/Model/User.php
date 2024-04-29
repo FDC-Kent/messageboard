@@ -1,9 +1,15 @@
 <?php
 class User extends AppModel
 {
-
     public $name = 'User';
     public $displayField = 'name';
+
+    public $hasOne = array(
+        'UserProfile' => array(
+            'className' => 'UserProfile',
+            'foreignKey' => 'user_id'
+        )
+    );
 
     public $validate = array(
         'name' => array(
@@ -53,7 +59,7 @@ class User extends AppModel
         if ($data['password'] == $this->data['User']['confirm_password']) {
             return true;
         }
-        
+
         return false;
     }
 
