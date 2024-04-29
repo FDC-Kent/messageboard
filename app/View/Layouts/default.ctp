@@ -57,7 +57,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 				<div class="container">
 					<!-- Navbar brand -->
-					<?php echo $this->Html->link('Message Board', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'navbar-brand']); ?>
+					<?php echo $this->Html->link('Message Board', ['controller' => 'Users', 'action' =>  'index'], ['class' => 'navbar-brand']); ?>
 
 					<!-- Navbar toggler -->
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,8 +71,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 								<?php echo $this->Html->link(
 									'Home',
 									array(
-										'controller' => 'Pages',
-										'action' => 'home'
+										'controller' => 'Users',
+										'action' => 'index'
 									),
 									array('class' => 'nav-link')
 								); ?>

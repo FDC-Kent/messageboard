@@ -17,12 +17,14 @@ angular.module('messageBoard').controller('registerController', ['userService', 
         userService.createUser(postData)
             .then(function (response) {
                 // Handle success response
-                if (response.data.status == 'errors' && response.data.message == 'Validation errors') {
+                $scope.isError = false;
+                if (response.data.status == 'errors') {
                     $scope.errorMessages = response.data.errors;
+                    $scope.isError = true;
                     $scope.errorMessagesArr = Object.values($scope.errorMessages);
                 } else {
                     $scope.errorMessages = {};
-                    window.location.href = BASE_URL + 'users/login';
+                    window.location.href = BASE_URL + 'users/success-register';
 
                 }
             })

@@ -40,9 +40,22 @@
         </div>
 
         <?php
-        echo $this->Form->input('name', array('class' => 'form-control mb-3'));
+        echo $this->Form->input('name', 
+            array(
+                'class' => 'form-control mb-3',
+                'maxLength' => 20
+            )
+        );
 
-        echo $this->Form->input('birthdate', array(
+        echo $this->Form->input('email',
+            array(
+                'label' => 'Email',
+                'class' => 'form-control mb-3',
+                'type' => 'email',
+            )
+        );
+
+        echo $this->Form->input('birth_date', array(
             'class' => 'form-control mb-3',
             'type' => 'text',
             'id' => 'birth-date'

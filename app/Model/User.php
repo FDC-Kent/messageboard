@@ -13,9 +13,9 @@ class User extends AppModel
 
     public $validate = array(
         'name' => array(
-            'The name must be between 5 and 15 characters.' => array(
-                'rule' => array('between', 5, 15),
-                'message' => 'The name must be between 5 and 15 characters.'
+            'The name must be between 5 and 20 characters.' => array(
+                'rule' => array('between', 5, 20),
+                'message' => 'The name must be between 5 and 20 characters.'
             ),
             'Not Empty' => array(
                 'rule' => 'notBlank',

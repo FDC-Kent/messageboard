@@ -12,6 +12,11 @@ class UserProfilesController extends AppController {
     }
 
     public function update(){
-        $this->set('user', $this->Auth->user());
+
+        $userProfile = $this->UserProfile->findByUserId($this->Auth->user('id'));
+        $userProfile['UserProfile']['email'] = $this->Auth->user('email');
+        $userProfile['UserProfile']['name'] = $this->Auth->user('name');
+       
+        $this->request->data = $userProfile;
     }
 }

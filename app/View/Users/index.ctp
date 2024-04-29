@@ -1,4 +1,4 @@
-<table>
+<table class="table table-striped">
     <thead>
         <th>Name</th>
         <th>Email</th>
