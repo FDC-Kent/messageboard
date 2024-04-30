@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $( "#birth-date" ).datepicker({
+        dateFormat: "yy-mm-dd",
+    });
+
     $('#image-upload').change(function () {
         var file = this.files[0];
         var reader = new FileReader();
@@ -20,7 +24,8 @@ $(document).ready(function () {
         var formData = new FormData();
 
         formData.append('data[UserProfile][name]', $('#UserProfileName').val());
-        formData.append('data[UserProfile][birthdate]', $('#UserProfileBirthdate').val());
+        formData.append('data[UserProfile][email]', $('#UserProfileEmail').val());
+        formData.append('data[UserProfile][birth_date]', $('#birth-date').val());
         formData.append('data[UserProfile][gender]', $('#UserProfileGender').val());
         formData.append('data[UserProfile][hubby]', $('#UserProfileHubby').val());
         formData.append('data[UserProfile][img]', $('#image-upload').val());
@@ -39,15 +44,23 @@ $(document).ready(function () {
                 $('#error-msg').removeClass('d-none');
                 $('#error-msg').empty();
                 if (response.success) {
-                    for (let item of Object.values(response.errors)) {
-                        $('#error-msg').append('<p>' + item + '</p>');
-                    }
-                } else {
-                    $('#error-msg').append('<span>' + response.message + '</span>');
                     $('#error-msg').removeClass('alert-danger');
                     $('#error-msg').addClass('alert-success');
 
+                    $('#error-msg').append('<span>' + response.message + '</span>');
+
                     window.location.href = BASE_URL + 'user/profile';
+
+                } else {
+
+                    for (let item of Object.values(response.errors)) {
+                        $('#error-msg').append('<p>' + item + '</p>');
+                    }
+
+                    $('#error-msg').removeClass('alert-success');
+                    $('#error-msg').addClass('alert-danger');
+
+                    
 
                 }
             },

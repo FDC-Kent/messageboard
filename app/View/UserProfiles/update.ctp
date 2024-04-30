@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container my-5">
     <h3>Edit Profile</h3>
     <div class="col-md-5 offset-md-0 mt-5">
         <div id="error-msg" class="d-none alert alert-danger" role="alert"></div>
@@ -17,7 +17,7 @@
             ),
         );
         ?>
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div id="image-preview">
                     <img src="<?php echo $this->webroot . 'img/default_img.jpeg' ?>" alt="image-preview">
@@ -40,11 +40,25 @@
         </div>
 
         <?php
-        echo $this->Form->input('name', array('class' => 'form-control mb-3'));
+        echo $this->Form->input('name', 
+            array(
+                'class' => 'form-control mb-3',
+                'maxLength' => 20
+            )
+        );
 
-        echo $this->Form->input('birthdate', array(
+        echo $this->Form->input('email',
+            array(
+                'label' => 'Email',
+                'class' => 'form-control mb-3',
+                'type' => 'email',
+            )
+        );
+
+        echo $this->Form->input('birth_date', array(
             'class' => 'form-control mb-3',
-            'type' => 'text'
+            'type' => 'text',
+            'id' => 'birth-date'
         ));
 
         echo $this->Form->input('gender', array(
@@ -82,4 +96,4 @@
 </div>
 
 
-<?php $this->append('script', $this->Html->script('/js/profile_update.js')) ?>
+<?php $this->append('script', $this->Html->script('/js/profile-update.js')) ?>

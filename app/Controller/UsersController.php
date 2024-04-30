@@ -59,7 +59,9 @@ class UsersController extends AppController {
         if($this->request->is('post')){
             if($this->User->save($this->request->data)){
                 $this->Flash->success('The user has been saved.');
-                $this->redirect(array('action' => 'index'));
+                $this->User->id = $this->Auth->user('id');
+                // $this->redirect(array('action' => 'index'));
+                $this->redirect($this->Auth->redirectUrl());
             }else{
                 $this->set('errors', $this->User->validationErrors);
             }
@@ -105,7 +107,7 @@ class UsersController extends AppController {
         return $this->redirect(array('action' => 'index'));
     }
 
-    public function register_success(){
+    public function successRegister(){
 
     }
 

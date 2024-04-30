@@ -17,9 +17,9 @@ class UserProfile extends AppModel
                 'message' => 'Name is required.',
                 'required' => true
             ),
-            'The name must be between 5 and 15 characters.' => array(
-                'rule' => array('between', 5, 15),
-                'message' => 'The name must be between 5 and 15 characters.'
+            'The name must be between 5 and 20 characters.' => array(
+                'rule' => array('between', 5, 20),
+                'message' => 'The name must be between 5 and 20 characters.'
             )
         ),
         'gender' => array(
@@ -33,7 +33,7 @@ class UserProfile extends AppModel
                 'message' => 'Invalid gender'
             )
         ),
-        'birthdate' => array(
+        'birth_date' => array(
             'required' => array(
                 'rule' => 'notBlank',
                 'message' => 'Birthdate is required',

@@ -32,19 +32,21 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->meta('icon');
 
 	// echo $this->Html->css('cake.generic');
-	echo $this->Html->css('bootstrap');
+	
 	echo $this->Html->css('style');
+	echo $this->Html->css('bootstrap');
+	echo $this->Html->css('jquery-ui');
 
 	echo $this->fetch('meta');
 	echo $this->fetch('css');
 
 	echo $this->Html->script('angular');
-	echo $this->Html->script('angular_route');
-	echo $this->Html->script('angular_resources');
+	echo $this->Html->script('angular-route');
+	echo $this->Html->script('angular-resources');
 
-	echo $this->Html->script('angular_app');
-	echo $this->Html->script('user_service');
-	echo $this->Html->script('user_controller');
+	echo $this->Html->script('angular-app');
+	echo $this->Html->script('user-service');
+	echo $this->Html->script('user-controller');
 	?>
 </head>
 
@@ -55,7 +57,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 				<div class="container">
 					<!-- Navbar brand -->
-					<?php echo $this->Html->link('Message Board', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'navbar-brand']); ?>
+					<?php echo $this->Html->link('Message Board', ['controller' => 'Users', 'action' =>  'index'], ['class' => 'navbar-brand']); ?>
 
 					<!-- Navbar toggler -->
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,8 +71,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 								<?php echo $this->Html->link(
 									'Home',
 									array(
-										'controller' => 'Pages',
-										'action' => 'home'
+										'controller' => 'Users',
+										'action' => 'index'
 									),
 									array('class' => 'nav-link')
 								); ?>
@@ -168,6 +170,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php 
 		echo $this->Html->script('jquery'); 
 		echo $this->Html->script('bootstrap');
+		echo $this->Html->script('jquery-ui');
 		echo $this->fetch('script');
 	?>
 </body>

@@ -33,7 +33,7 @@
                 <div class="col mt-5">
                     <label class="mb-4">Hubby:</label>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus deleniti dicta harum temporibus suscipit nihil sint mollitia earum voluptate at officiis, cum consectetur alias quam, molestias, distinctio sunt repellat explicabo!
+                        <?php echo $user['UserProfile']['hubby']?>
                     </p>
                 </div>
                 <div>

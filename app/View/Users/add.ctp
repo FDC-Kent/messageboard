@@ -2,7 +2,7 @@
 <div ng-app="messageBoard">
 
     <div ng-controller="registerController as registerCtrl" class="register-form container-fluid w-25 mt-5">
-        <div class="alert alert-danger" role="alert" ng-show="errorMessagesArr">
+        <div class="alert alert-danger" role="alert" ng-show="isError">
             <p ng-repeat="error in errorMessagesArr">{{ error[0] }}</p>
         </div>
 
