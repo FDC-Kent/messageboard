@@ -7,11 +7,19 @@
 
                 <div class="col-md-4">
                     <div id="user_img">
-                        <?php echo $this->Html->image('default_img.jpeg', [
-                            'alt' => 'Image',
-                            'width' => '150px',
-                            'class' => 'img-fluid'
-                        ]) ?>
+                        <?php 
+                                $imgUrl = 'default-img.jpeg';
+
+                                if(!empty($user['UserProfile']['img_url'])){
+                                    $imgUrl = 'uploads/'.$user['UserProfile']['img_url'];
+                                }
+
+                                echo $this->Html->image($imgUrl, [
+                                    'alt' => 'Image',
+                                    'width' => '150px',
+                                    'class' => 'img-fluid'
+                                ]) 
+                        ?>
                     </div>
                 </div>
                 <div class="col-md-8">

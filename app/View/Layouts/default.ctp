@@ -36,6 +36,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->css('style');
 	echo $this->Html->css('bootstrap');
 	echo $this->Html->css('jquery-ui');
+	echo $this->Html->css('select2');
 
 	echo $this->fetch('meta');
 	echo $this->fetch('css');
@@ -105,20 +106,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 										</li>
 										<li>
 											<?php echo $this->Html->link(
-												'Change Email Address',
-												array(
-													'controller' => 'userprofiles',
-													'action' => 'index'
-												),
-												array('class' => 'dropdown-item')
-											) ?>
-										</li>
-										<li>
-											<?php echo $this->Html->link(
 												'Change Password',
 												array(
-													'controller' => 'userprofiles',
-													'action' => 'index'
+													'controller' => 'users',
+													'action' => 'changePassword'
 												),
 												array('class' => 'dropdown-item')
 											) ?>
@@ -171,6 +162,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('jquery'); 
 		echo $this->Html->script('bootstrap');
 		echo $this->Html->script('jquery-ui');
+		echo $this->Html->script('select2');
 		echo $this->fetch('script');
 	?>
 </body>

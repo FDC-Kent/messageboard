@@ -18,5 +18,7 @@ class UserProfilesController extends AppController {
         $userProfile['UserProfile']['name'] = $this->Auth->user('name');
        
         $this->request->data = $userProfile;
+
+        $this->set('user', $userProfile);
     }
 }

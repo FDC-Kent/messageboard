@@ -32,6 +32,7 @@
 	Router::connect('/posts', array('controller' => 'posts', 'action' => 'index'));
 	Router::connect('/users', array('controller' => 'users', 'action' => 'index'));
 	Router::connect('/users/success-register', array('controller' => 'users', 'action' => 'successRegister'));
+	Router::connect('/user/change-password', array('controller' => 'users', 'action' => 'changePassword'));
 	Router::connect('/user/profile', array('controller' => 'userprofiles', 'action' => 'index'));
 	Router::connect('/user/profile/update', array('controller' => 'userprofiles', 'action' => 'update'));
 	Router::connect('/user/messages', array('controller' => 'messages', 'action' => 'index'));

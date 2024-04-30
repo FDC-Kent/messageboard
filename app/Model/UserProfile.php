@@ -44,7 +44,7 @@ class UserProfile extends AppModel
                 'message' => 'Invalid date format'
             )
         ),
-        'img' => array(
+        'img_url' => array(
             'required' => array(
                 'rule' => 'notBlank',
                 'message' => 'Image is required',

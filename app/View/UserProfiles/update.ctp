@@ -4,7 +4,7 @@
         <div id="error-msg" class="d-none alert alert-danger" role="alert"></div>
         <?php echo $this->Form->create(
             'UserProfile',
-            
+
             array(
                 'url' => array(
                     'controller' => 'api',
@@ -20,7 +20,16 @@
         <div class="row mb-4">
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div id="image-preview">
-                    <img src="<?php echo $this->webroot . 'img/default_img.jpeg' ?>" alt="image-preview">
+                    <img src="<?php
+                                $imgUrl = 'default-img.jpeg';
+
+                                if (!empty($user['UserProfile']['img_url'])) {
+                                    $imgUrl = 'uploads/' . $user['UserProfile']['img_url'];
+                                }
+
+                                echo $this->webroot .'img/'. $imgUrl;
+
+                                ?>" alt="image-preview">
                 </div>
             </div>
             <div class="col-md-6 d-flex align-items-center">
@@ -30,7 +39,7 @@
                     'type' => 'button'
                 ])
                 ?>
-                <?php echo $this->Form->file('img', array(
+                <?php echo $this->Form->file('img_url', array(
                     'id' => 'image-upload',
                     'class' => 'd-none',
                     'accept' => '.jpeg, .jpg, .gif, .png'
@@ -40,14 +49,26 @@
         </div>
 
         <?php
-        echo $this->Form->input('name', 
+        echo $this->Form->input(
+            'image',
+            array(
+                'class' => 'form-control mb-3',
+                'type' => 'hidden',
+                'id' => 'imgDefaultValue',
+                'value' => $user['UserProfile']['img_url']
+            )
+        );
+
+        echo $this->Form->input(
+            'name',
             array(
                 'class' => 'form-control mb-3',
                 'maxLength' => 20
             )
         );
 
-        echo $this->Form->input('email',
+        echo $this->Form->input(
+            'email',
             array(
                 'label' => 'Email',
                 'class' => 'form-control mb-3',
@@ -77,7 +98,8 @@
 
         <div class="mt-5 form-upload-button">
             <?php
-            echo $this->Html->Link('Back',
+            echo $this->Html->Link(
+                'Back',
                 array(
                     'controller' => 'userprofiles',
                     'action' => 'index'
