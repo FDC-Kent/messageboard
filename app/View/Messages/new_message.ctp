@@ -1,12 +1,12 @@
 <div class="container">
     <div class="m-4">
         <?php
-
-        $options = [];
-
-        foreach ($users as $key => $value) {
-            $options[] = $value['User']['name'];
-        }
+        echo $this->Form->create('Message',
+            array( 'url' => array(
+                'controller' => 'api',
+                'action' => 'sendMessage'
+            ))
+        );
 
         echo $this->Form->label(
             'receiverId',
@@ -18,14 +18,19 @@
             '*',
             array('class' => 'text-danger')
         );
-        echo $this->Form->select(
-            'receiver_id',
-            $options, // Options array 
-            array(
-                'class' => 'select2 w-100 form-select',
-                'id' => 'receiverId'
-            )
-        );
+        ?>
+        <select type="select" id="receiverId" class="select2 w-100 form-select" name="data[Message][receiver_id][]" multiple="multiple" required>
+            <?php 
+                $html = '';
+
+                foreach ($users as $key => $value) {
+                    $html .= '<option data-img="' . $value['UserProfile']['img_url'] . '" value="' . $value['User']['id'] . '">' . $value['User']['name'] . '</option>';
+                }
+
+                echo $html;
+            ?>
+        </select>
+        <?php
         echo $this->Form->label(
             'message-content',
             'Message Content',
@@ -37,7 +42,7 @@
             array('class' => 'text-danger')
         );
         echo $this->Form->textarea(
-            'content',
+            'message_content',
             array(
                 'class' => 'form-control',
                 'rows' => '10'
