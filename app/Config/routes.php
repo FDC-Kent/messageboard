@@ -41,6 +41,8 @@
 
 	Router::connect('/api/user/register', array('controller' => 'api', 'action' => 'register'));
 	Router::connect('/api/user/update', array('controller' => 'api', 'action' => 'updateProfile'));
+
+	Router::connect('/api/message/send', array('controller' => 'api', 'action' => 'sendMessage'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

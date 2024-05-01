@@ -3,7 +3,8 @@ class ApiController extends AppController
 {
     public $uses = array(
         'User',
-        'UserProfile'
+        'UserProfile',
+        'Message'
     );
 
     public function beforeFilter()
@@ -269,6 +270,65 @@ class ApiController extends AppController
             }
         }
     }
+
+
+    // API MESSAGES
+    public function sendMessage() {
+        $this->autoRender = false;
+        
+        if ($this->request->is('post')) {
+            $data = $this->request->data;
+    
+            $messageData = array(
+                'sender_id' => $this->Auth->user('id'),
+                'content' => $data['Message']['message_content']
+            );
+
+            $receiverIds[] = $data['Message']['receiver_id']; // Assuming you pass the target user IDs as an array
+            
+            $messages = array(); // Store the created messages
+            $messageArr = [];
+
+
+            foreach ($receiverIds[0] as $receiverId) {
+
+                $messageData['receiver_id'] = $receiverId;
+                if ($this->Message->save($messageData)) {
+                    
+                    $message = $this->Message->find('first', array(
+                        'conditions' => array(
+                            'Message.id' => $this->Message->id
+                        ),
+                        'contain' => array(
+                            'FromUser' => array(
+                                'UserProfile'
+                            ),
+                            'ToUser' => array(
+                                'UserProfile'
+                            )
+                        )
+                    ));
+                    $messages[] = $message;
+                }
+            }
+            
+            if (!empty($messages)) {
+                $this->response->statusCode(200);
+                $this->response->body(json_encode($messages));
+            } else {
+                $this->response->statusCode(400);
+                $this->response->body(json_encode(array(
+                    'error' => 'Messages could not be sent to any recipients',
+                )));
+            }
+        } else {
+            $this->response->statusCode(400);
+            $this->response->body(json_encode(array(
+                'error' => 'Invalid request method',
+            )));
+        }
+    }
+    // END API MESSAGES
 
     // GET API
 
