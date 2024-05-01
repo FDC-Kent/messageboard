@@ -11,3 +11,18 @@
 .btn-upload{
     width: 100px;
 }
+.card-link{
+    text-decoration: none;
+    cursor: pointer;
+    color:black;
+}
+
+.card-link:hover {
+    color:grey;
+}
+#header{
+    padding: 0px!important;
+}
+.dropdown-menu a{
+    color: black!important;
+}

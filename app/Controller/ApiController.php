@@ -244,16 +244,15 @@ class ApiController extends AppController
                     )
                 )
             );
-            
+
             $this->request->data['User']['id'] = $user['User']['id'];
             $this->User->validate = $validate;
             $this->User->set($this->request->data);
 
-            if(!$this->User->validates()){
+            if (!$this->User->validates()) {
                 echo json_encode(['success' => false, 'errors' => $this->User->validationErrors]);
                 return;
-            }
-             else {
+            } else {
                 if ($password === AuthComponent::password($newPassword)) {
                     echo json_encode(['success' => false, 'message' => 'New password must not the same with old password.']);
                     return;
@@ -271,63 +270,143 @@ class ApiController extends AppController
         }
     }
 
-
     // API MESSAGES
-    public function sendMessage() {
+    public function postMessage()
+    {
         $this->autoRender = false;
-        
+
         if ($this->request->is('post')) {
             $data = $this->request->data;
-    
+
             $messageData = array(
                 'sender_id' => $this->Auth->user('id'),
                 'content' => $data['Message']['message_content']
             );
 
             $receiverIds[] = $data['Message']['receiver_id']; // Assuming you pass the target user IDs as an array
-            
-            $messages = array(); // Store the created messages
-            $messageArr = [];
 
+            $messages = array(); // Store the created messages
 
             foreach ($receiverIds[0] as $receiverId) {
-
+                $messageData['id'] = null;
                 $messageData['receiver_id'] = $receiverId;
+
                 if ($this->Message->save($messageData)) {
-                    
                     $message = $this->Message->find('first', array(
                         'conditions' => array(
                             'Message.id' => $this->Message->id
-                        ),
-                        'contain' => array(
-                            'FromUser' => array(
-                                'UserProfile'
-                            ),
-                            'ToUser' => array(
-                                'UserProfile'
-                            )
                         )
                     ));
                     $messages[] = $message;
                 }
             }
-            
+
             if (!empty($messages)) {
                 $this->response->statusCode(200);
-                $this->response->body(json_encode($messages));
+                $this->response->body(json_encode(
+                    array(
+                        'status' => 'success',
+                        'message' => 'Send message successfully.',
+                        'data' => $messages
+                    )
+                ));
             } else {
+
                 $this->response->statusCode(400);
-                $this->response->body(json_encode(array(
-                    'error' => 'Messages could not be sent to any recipients',
-                )));
+                $this->response->body(json_encode(
+                    array(
+                        'status' => 'error',
+                        'message' => 'Messages could not be sent.'
+                    )
+                ));
             }
         } else {
-            $this->response->statusCode(400);
-            $this->response->body(json_encode(array(
-                'error' => 'Invalid request method',
-            )));
+            $this->response->statusCode(405);
+            $this->response->body(json_encode(
+                array(
+                    'status' => 'error',
+                    'message' => 'This Method Not Allowed.'
+                )
+            ));
         }
     }
+
+    public function getMessages()
+    {
+        if ($this->request->is('get')) {
+            $userId = $this->Auth->user('id');
+
+            $page = $this->request->query('page') ?: 1; // Get page number from request query, default to 1 if not set
+            $limit = $this->request->query('page_size'); // Number of records per page
+            $offset = ($page - 1) * $limit; // Calculate offset
+
+            try {
+                $messages = $this->Message->find(
+                    'all',
+                    [
+                        'conditions' => [
+                            'OR' => [
+                                ['Message.sender_id' => $userId],
+                                ['Message.receiver_id' => $userId]
+                            ]
+                        ],
+                        'order' => ['Message.created DESC'],
+                        'limit' => $limit,
+                        'offset' => $offset,
+                        'recursive' => 2
+                    ]
+                );
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+                $this->response->body(json_encode(
+                    array(
+                        'status' => 'success',
+                        'message' => 'Send message successfully.',
+                        'error' => $error,
+                    )
+                ));
+            }
+
+            $totalCount = $this->Message->find('count', [
+                'conditions' => [
+                    'OR' => [
+                        ['Message.sender_id' => $userId],
+                        ['Message.receiver_id' => $userId]
+                    ]
+                ],
+                'order' => ['Message.created DESC'],
+            ]);
+
+            if (isset($messages)) {
+                $this->response->statusCode(200);
+                $this->response->body(json_encode(
+                    array(
+                        'status' => 'success',
+                        'message' => 'Send message successfully.',
+                        'data' => $messages,
+                        'totalCount' => $totalCount
+                    )
+                ));
+            } else {
+                $this->response->statusCode(400);
+                $this->response->body(json_encode(
+                    array(
+                        'status' => 'error',
+                        'message' => 'check parameter',
+                    )
+                ));
+            }
+        } else {
+            $this->response->statusCode(405);
+            $this->response->body(json_encode(
+                array(
+                    'status' => 'error',
+                    'message' => 'This Method Not Allowed.'
+                )
+            ));
+        }
+    }
+    
     // END API MESSAGES
 
     // GET API

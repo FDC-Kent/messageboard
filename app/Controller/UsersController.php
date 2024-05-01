@@ -17,6 +17,7 @@ class UsersController extends AppController {
         }
         return true;
     }
+    
     public function login(){
         if($this->request->is('post')){
 
@@ -33,7 +34,8 @@ class UsersController extends AppController {
     }
 
     public function logout(){
-        $this->redirect($this->Auth->logout());
+        $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        $this->Auth->logout();
     }
 
     public function index(){

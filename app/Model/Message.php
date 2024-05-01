@@ -1,6 +1,7 @@
 <?php 
 class Message extends AppModel{
     public $name = 'Message';
+    public $useTable = 'messages';
 
     public $validate = array(
         'sender_id' => array(
@@ -18,14 +19,9 @@ class Message extends AppModel{
     );
 
     public $belongsTo = array(
-        'FromUser' => array(
+        'User' => array(
             'className' => 'User',
-            'foreignKey' => 'sender_id'
-        ),
-        'ToUser' => array(
-            'className' => 'User',
-            'foreignKey' => 'receiver_id'
+            'foreignKey' => 'sender_id',
         )
     );
-    
 }

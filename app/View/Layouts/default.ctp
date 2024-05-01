@@ -31,7 +31,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php
 	echo $this->Html->meta('icon');
 
-	// echo $this->Html->css('cake.generic');
+	echo $this->Html->css('cake.generic');
 	
 	echo $this->Html->css('style');
 	echo $this->Html->css('bootstrap');
@@ -46,8 +46,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->script('angular-resources');
 
 	echo $this->Html->script('angular-app');
-	echo $this->Html->script('user-service');
-	echo $this->Html->script('user-controller');
+	echo $this->Html->script('main-service');
+	echo $this->Html->script('main-controller');
 	?>
 </head>
 
@@ -130,12 +130,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 										</li>
 									</ul>
 								</li>
-							<?php else : ?>
-								<?php echo $this->Html->link(
-									'login',
-									array('controller' => 'users', 'action' => 'login'),
-									array('class' => 'btn btn-primary')
-								); ?>
 							<?php endif; ?>
 						</ul>
 					</div>
@@ -163,8 +157,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('bootstrap');
 		echo $this->Html->script('jquery-ui');
 		echo $this->Html->script('select2');
+		echo $this->Html->script('common');
 		echo $this->fetch('script');
 	?>
 </body>
 
 </html>
+

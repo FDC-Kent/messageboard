@@ -1,7 +1,7 @@
 
 <div ng-app="messageBoard">
 
-    <div ng-controller="registerController as registerCtrl" class="register-form container-fluid w-25 mt-5">
+    <div ng-controller="mainController as mainCtrl" class="register-form container-fluid w-25 mt-5">
         <div class="alert alert-danger" role="alert" ng-show="isError">
             <p ng-repeat="error in errorMessagesArr">{{ error[0] }}</p>
         </div>
@@ -11,7 +11,7 @@
                 array('
                     class' => 'needs-validation',
                     'novalidate' => true,
-                    'ng-submit' => 'registerCtrl.addUser($event)'
+                    'ng-submit' => 'mainCtrl.addUser($event)'
                 )
             );
         ?>
@@ -25,7 +25,7 @@
                     'class' => 'form-control mb-3',
                     'placeholder' => 'Name',
                     'required' => true,
-                    'ng-model' => 'registerCtrl.name'
+                    'ng-model' => 'mainCtrl.name'
                 )
             );
 
@@ -36,7 +36,7 @@
                     'placeholder' => 'Email',
                     'type' => 'email',
                     'required' => true,
-                    'ng-model' => 'registerCtrl.email'
+                    'ng-model' => 'mainCtrl.email'
                 )
             );
 
@@ -47,7 +47,7 @@
                     'placeholder' => 'Password',
                     'type' => 'password',
                     'required' => true,
-                    'ng-model' => 'registerCtrl.password'
+                    'ng-model' => 'mainCtrl.password'
                 )
             );
 
@@ -58,7 +58,7 @@
                     'placeholder' => 'Confirm Password',
                     'type' => 'password',
                     'required' => true,
-                    'ng-model' => 'registerCtrl.confirm_password'
+                    'ng-model' => 'mainCtrl.confirm_password'
                 )
             );
             

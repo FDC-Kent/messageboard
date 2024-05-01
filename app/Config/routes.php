@@ -31,18 +31,31 @@
  */
 	Router::connect('/posts', array('controller' => 'posts', 'action' => 'index'));
 	Router::connect('/users', array('controller' => 'users', 'action' => 'index'));
+	Router::connect('/users/login', array('controller' => 'users', 'action' => 'login'));
 	Router::connect('/users/success-register', array('controller' => 'users', 'action' => 'successRegister'));
 	Router::connect('/user/change-password', array('controller' => 'users', 'action' => 'changePassword'));
 	Router::connect('/user/profile', array('controller' => 'userprofiles', 'action' => 'index'));
 	Router::connect('/user/profile/update', array('controller' => 'userprofiles', 'action' => 'update'));
 	Router::connect('/user/messages', array('controller' => 'messages', 'action' => 'index'));
+	Router::connect('/user/messages/send', array('controller' => 'messages', 'action' => 'newMessage'));
+	Router::connect('/user/messages/details/:id', 
+	array(
+		'controller' => 'messages',
+	 	'action' => 'messageDetails'
+	),
+	array(
+		'pass' => array('id'),
+		'id' => '[0-9]+'));
 
 	Router::mapResources('Api');
 
+	// User
 	Router::connect('/api/user/register', array('controller' => 'api', 'action' => 'register'));
 	Router::connect('/api/user/update', array('controller' => 'api', 'action' => 'updateProfile'));
 
-	Router::connect('/api/message/send', array('controller' => 'api', 'action' => 'sendMessage'));
+	// Message
+	Router::connect('/api/message', array('controller' => 'api', 'action' => 'getMessages'));
+	Router::connect('/api/message/send', array('controller' => 'api', 'action' => 'postMessage'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

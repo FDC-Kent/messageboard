@@ -3,6 +3,15 @@ class User extends AppModel
 {
     public $name = 'User';
     public $displayField = 'name';
+    
+    public $useTable = 'users';
+
+    public $hasMany = array(
+        'Message' => array(
+            'className' => 'Message',
+            'foreignKey' => 'sender_id'
+        )
+    );
 
     public $hasOne = array(
         'UserProfile' => array(

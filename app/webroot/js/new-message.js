@@ -10,8 +10,9 @@ $(document).ready(function(){
             type: 'POST',
             data: formData,
             success: function(response) {
-                // Handle success
-                console.log(response);
+                if(response.status == 'success'){
+                    window.location.href = BASE_URL + 'messages';
+                }
             },
             error: function(xhr, status, error) {
                 // Handle errors
@@ -22,7 +23,6 @@ $(document).ready(function(){
 
     $('#receiverId').select2({
         templateResult: function(data) {
-            console.log(data)
             if (!data.id) { console.log(data);return data.text; }
             var img;
            
@@ -36,7 +36,6 @@ $(document).ready(function(){
             return $result;
         },
         templateSelection: function (data) {
-            console.log(data)
           if (!data.id) { console.log(data);return data.text; }
           var img;
 
