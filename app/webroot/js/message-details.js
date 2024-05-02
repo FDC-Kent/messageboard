@@ -1,14 +1,15 @@
 $(document).ready(function () {
-    getMessages(1,10);
-
-    var count = 10;
-
     
-
-
+    getMessages(1,10);
+    var count = 10;
+    
     $('#view-more').on('click', function(){
         count += 10;
         getMessages(1,count);
+    });
+
+    $('#btn-message-search').on('click', function(e){
+        getMessages(1,10);
     });
 
     $('#reply-message-form').on('submit', function(e){
@@ -37,7 +38,10 @@ $(document).ready(function () {
 
     function getMessages(page, page_size){
         var urlParams = getUrlParams();
+        var search = $('#search-msg').val();
+
         var queryParams = {
+            search: search,
             page: page,
             page_size: page_size,
         };

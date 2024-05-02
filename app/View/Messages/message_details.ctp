@@ -35,8 +35,27 @@
                 'type' => 'submit',
                 'class' => 'btn btn-primary my-3'
             ),
-        )
+        );
+        echo $this->Form->input(
+            'search',
+            array(
+                'class' => 'form-control mt-2',
+                'id' => 'search-msg'
+            )
+        );
+
+        echo $this->Form->button(
+            'search',
+            array(
+                'type' => 'button',
+                'class' => 'btn btn-primary my-3',
+                'id' => 'btn-message-search'
+            ),
+        );
+        
         ?>
+       
+        <hr>
         <div class="row">
             <div class="col-md-10 mx-auto" id="message-list">
 

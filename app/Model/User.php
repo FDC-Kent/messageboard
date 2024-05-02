@@ -10,6 +10,18 @@ class User extends AppModel
         'Message' => array(
             'className' => 'Message',
             'foreignKey' => 'sender_id'
+        ),
+        'UserProfile' => array(
+            'className' => 'UserProfile',
+            'foreignKey' => 'user_id'
+        ),
+        'Sender' => array(
+            'className' => 'Message',
+            'foreignKey' => 'sender_id'
+        ),
+        'Receiver' => array(
+            'className' => 'Message',
+            'foreignKey' => 'receiver_id'
         )
     );
 

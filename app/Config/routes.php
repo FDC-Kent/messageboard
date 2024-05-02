@@ -48,6 +48,7 @@
 
 	// Message
 	Router::connect('/api/message', array('controller' => 'api', 'action' => 'getMessages'));
+	Router::connect('/api/message/latest', array('controller' => 'api', 'action' => 'getAllLatestMessages'));
 	Router::connect('/api/message/send', array('controller' => 'api', 'action' => 'postMessage'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on

@@ -337,10 +337,10 @@ class ApiController extends AppController
 
         if ($this->request->is('get')) {
             $userId = $this->request->query('user_id');
-
+            $search = $this->request->query('search');
             $senderId = $this->request->query('sender_id');
             $receiverId = $this->request->query('receiver_id');
-            
+
             $group = [];
 
             $page = $this->request->query('page') ?: 1; // Get page number from request query, default to 1 if not set
@@ -348,25 +348,40 @@ class ApiController extends AppController
             $offset = ($page - 1) * $limit; // Calculate offset
 
             $condition = [];
+            $searchCondition = [];
 
             // conversation by sender and receiver
             if (isset($senderId) && isset($receiverId)) {
                 $condition = [
-                    [
-                        'Message.sender_id' => $senderId,
-                        'Message.receiver_id' => $receiverId
-                    ],
-                    [
-                        'Message.sender_id' => $receiverId,
-                        'Message.receiver_id' => $senderId
-                    ]
+                        [
+                            'Message.sender_id' => $senderId,
+                            'Message.receiver_id' => $receiverId
+                        ],
+                        [
+                            'Message.sender_id' => $receiverId,
+                            'Message.receiver_id' => $senderId
+                        ]
                 ];
-            }else{
-                $condition = [
-                    ['Message.sender_id' => $userId],
-                    ['Message.receiver_id' => $userId]
-                ];
-                $group = 'receiver_id';
+
+                $searchCondition = ['Message.content LIKE' => '%'. $search .'%'];
+
+            } else {
+                $condition = array(
+                    array(
+                        $userId . ' IN (Sender.id, Receiver.id)',
+                        'Message.id IN (
+                        SELECT 
+                            MAX(id) 
+                        FROM 
+                            messages 
+                        WHERE 
+                            sender_id = Message.sender_id AND receiver_id = Message.receiver_id
+                            OR sender_id = Message.receiver_id AND receiver_id = Message.sender_id
+                        GROUP BY 
+                            LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id)
+                    )'
+                ), 
+                );
             }
 
             try {
@@ -374,7 +389,8 @@ class ApiController extends AppController
                     'all',
                     [
                         'conditions' => [
-                            'OR' => $condition
+                            'OR' => $condition, 
+                            $searchCondition
                         ],
                         'group' => $group,
                         'order' => ['Message.created DESC'],
@@ -397,6 +413,7 @@ class ApiController extends AppController
             $totalCount = $this->Message->find('count', [
                 'conditions' => [
                     'OR' => $condition,
+                    $searchCondition
                 ],
                 'group' => $group,
                 'order' => ['Message.created DESC'],
@@ -427,6 +444,105 @@ class ApiController extends AppController
                 array(
                     'status' => 'error',
                     'message' => 'This Method Not Allowed.'
+                )
+            ));
+        }
+    }
+
+    public function getAllLatestMessages()
+    {
+        $user_id = $this->Auth->user('id'); // Example user ID
+
+        $latestConversations = $this->Message->find('all', array(
+            // 'fields' => array(
+            //     'Message.*',
+            //     'Sender.*',
+            //     'Receiver.*',
+            // ),
+            'conditions' => array(
+                $user_id . ' IN (Sender.id, Receiver.id)',
+                'Message.id IN (
+                SELECT 
+                    MAX(id) 
+                FROM 
+                    messages 
+                WHERE 
+                    sender_id = Message.sender_id AND receiver_id = Message.receiver_id
+                    OR sender_id = Message.receiver_id AND receiver_id = Message.sender_id
+                GROUP BY 
+                    LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id)
+            )'
+            ),
+            'contain' => array(
+                'Sender' => array(
+                    'UserProfile'
+                ),
+                'Receiver' => array(
+                    'UserProfile'
+                )
+            ),
+            'order' => 'Message.created DESC',
+            'recursive' => 2,
+
+        ));
+
+        if (isset($latestConversations)) {
+            $this->response->statusCode(200);
+            $this->response->body(json_encode(
+                array(
+                    'status' => 'success',
+                    'message' => 'Send message successfully.',
+                    'data' => $latestConversations,
+                )
+            ));
+        } else {
+            $this->response->statusCode(400);
+            $this->response->body(json_encode(
+                array(
+                    'status' => 'error',
+                    'message' => 'check parameter',
+                )
+            ));
+        }
+    }
+
+    public function getMessage()
+    {
+        $sender_id = 1; // Example sender ID
+        $receiver_id = 2; // Example receiver ID
+
+        $result = $this->Message->find('first', array(
+            'conditions' => array(
+                'OR' => array(
+                    array(
+                        'Message.sender_id' => $sender_id,
+                        'Message.receiver_id' => $receiver_id
+                    ),
+                    array(
+                        'Message.sender_id' => $receiver_id,
+                        'Message.receiver_id' => $sender_id
+                    )
+                )
+            ),
+            'order' => 'Message.created DESC'
+        ));
+
+
+        if (isset($result)) {
+            $this->response->statusCode(200);
+            $this->response->body(json_encode(
+                array(
+                    'status' => 'success',
+                    'message' => 'fetch data successfully.',
+                    'data' => $result,
+                )
+            ));
+        } else {
+            $this->response->statusCode(400);
+            $this->response->body(json_encode(
+                array(
+                    'status' => 'error',
+                    'message' => 'check parameter',
                 )
             ));
         }
