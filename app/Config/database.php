@@ -72,7 +72,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => '',
-		'database' => 'messageboard',
+		'database' => 'fdc_kent_nc_web',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

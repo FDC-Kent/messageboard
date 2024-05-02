@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $('#MessageSendMessageForm').on('submit', function(e){
+    $('#MessagePostMessageForm').on('submit', function(e){
         e.preventDefault();
 
         var formData = $(this).serialize();

@@ -23,6 +23,11 @@ class UsersController extends AppController {
 
             if($this->Auth->login()){
                 $this->User->id = $this->Auth->user('id');
+
+                // User logged in successfully, set session variable
+                $this->Session->write('User.id', $this->Auth->user('id'));
+                $this->Session->write('User.name', $this->Auth->user('name'));
+
                 $this->User->saveField('last_login', date('Y-m-d H:i:s'));
 
                 $this->Flash->success('Login successful.');
@@ -34,8 +39,9 @@ class UsersController extends AppController {
     }
 
     public function logout(){
-        $this->redirect(array('controller' => 'users', 'action' => 'login'));
+
         $this->Auth->logout();
+        $this->redirect(array('controller' => 'users', 'action' => 'login'));
     }
 
     public function index(){

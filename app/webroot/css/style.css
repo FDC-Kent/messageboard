@@ -1,28 +1,112 @@
-#image-preview img{
+#image-preview img {
     height: 150px;
     width: auto;
 }
-#image-preview{
+
+#image-preview {
     max-width: 200px;
     max-width: 200px;
     display: flex;
     justify-content: center;
 }
-.btn-upload{
+
+.btn-upload {
     width: 100px;
 }
-.card-link{
+
+.link {
     text-decoration: none;
     cursor: pointer;
-    color:black;
+    color: #212529;
 }
 
-.card-link:hover {
-    color:grey;
+.link:hover {
+    color: #212529;
 }
-#header{
-    padding: 0px!important;
+
+#header {
+    padding: 0px !important;
 }
-.dropdown-menu a{
-    color: black!important;
+
+.dropdown-menu a {
+    color: black !important;
 }
+
+#login-form {
+    width: 400px;
+    margin: auto;
+    height: 300px;
+    padding: 10px;
+    border: 1px solid grey;
+    background: #ced4da;
+    border-radius: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-form form {
+    width: 80%;
+    margin: 0px;
+}
+
+.message-card {
+    /* max-width: 70%; */
+    margin-bottom: 10px;
+}
+
+.message-card .card-body {
+    padding: 10px;
+}
+
+.message-card.sent .card-body {
+    background-color: #DCF8C6;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    align-self: flex-end;
+    /* Align sent messages to the right */
+}
+
+.message-card.received .card-body {
+    background-color: #F3F3F3;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    align-self: flex-start;
+    /* Align received messages to the left */
+}
+
+.message-card.sent img {
+    order: 2;
+    /* Reorder the image to appear after the text for sent messages */
+}
+
+.message-card.sent .card-body {
+    justify-content: flex-end;
+    /* Align text to the right for sent messages */
+}
+
+.message-card.received .card-body {
+    justify-content: flex-start;
+    /* Align text to the left for received messages */
+}
+
+.message-card img {
+    max-width: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    /* Add some space between the image and the message */
+    margin-left: 10px;
+    /* Add some space between the image and the message */
+}
+
+.message-card .card-body{
+    width: 50%;
+}
+.message-card .card{
+    border: none;
+}
+/* .message-card .message-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+} */

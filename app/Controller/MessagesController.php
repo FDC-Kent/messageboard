@@ -25,7 +25,7 @@ class MessagesController extends AppController
             'conditions' => ['sender_id' => $userId]
         ]);
 
-        // $this->set('messages', $messages);
+        $this->set('messages', $messages);
     }
 
     public function newMessage()
@@ -35,10 +35,11 @@ class MessagesController extends AppController
         $this->set('users', $user);
     }
 
-    public function messageDetails($id)
+    public function messageDetails()
     {   
-        $message = $this->Message->findById($id);
-        var_dump($message);
-        $this->set('user', $message);
+        // $this->User->recursive = 2;
+        // $message = $this->Message->findById($id);
+
+        // $this->set('user', $message);
     }
 }

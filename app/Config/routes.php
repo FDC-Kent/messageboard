@@ -38,14 +38,7 @@
 	Router::connect('/user/profile/update', array('controller' => 'userprofiles', 'action' => 'update'));
 	Router::connect('/user/messages', array('controller' => 'messages', 'action' => 'index'));
 	Router::connect('/user/messages/send', array('controller' => 'messages', 'action' => 'newMessage'));
-	Router::connect('/user/messages/details/:id', 
-	array(
-		'controller' => 'messages',
-	 	'action' => 'messageDetails'
-	),
-	array(
-		'pass' => array('id'),
-		'id' => '[0-9]+'));
+	Router::connect('/user/messages/details', array('controller' => 'messages', 'action' => 'messageDetails'));
 
 	Router::mapResources('Api');
 

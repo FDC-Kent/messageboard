@@ -31,7 +31,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php
 	echo $this->Html->meta('icon');
 
-	echo $this->Html->css('cake.generic');
+	// echo $this->Html->css('cake.generic');
 	
 	echo $this->Html->css('style');
 	echo $this->Html->css('bootstrap');
@@ -151,11 +151,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	</div>
 	<script type="text/javascript">
 		const BASE_URL = '<?php echo $this->webroot; ?>';
+		const USER_ID = '<?php echo $current_user ? $current_user['id'] : ''; ?>';
 	</script>
 	<?php 
 		echo $this->Html->script('jquery'); 
-		echo $this->Html->script('bootstrap');
 		echo $this->Html->script('jquery-ui');
+		echo $this->Html->script('bootstrap');
 		echo $this->Html->script('select2');
 		echo $this->Html->script('common');
 		echo $this->fetch('script');

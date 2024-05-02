@@ -287,6 +287,7 @@ class ApiController extends AppController
 
             $messages = array(); // Store the created messages
 
+            // var_dump($receiverIds[0]);exit;
             foreach ($receiverIds[0] as $receiverId) {
                 $messageData['id'] = null;
                 $messageData['receiver_id'] = $receiverId;
@@ -333,23 +334,49 @@ class ApiController extends AppController
 
     public function getMessages()
     {
+
         if ($this->request->is('get')) {
-            $userId = $this->Auth->user('id');
+            $userId = $this->request->query('user_id');
+
+            $senderId = $this->request->query('sender_id');
+            $receiverId = $this->request->query('receiver_id');
+            
+            $group = [];
 
             $page = $this->request->query('page') ?: 1; // Get page number from request query, default to 1 if not set
             $limit = $this->request->query('page_size'); // Number of records per page
             $offset = ($page - 1) * $limit; // Calculate offset
+
+            $condition = [];
+
+            // conversation by sender and receiver
+            if (isset($senderId) && isset($receiverId)) {
+                $condition = [
+                    [
+                        'Message.sender_id' => $senderId,
+                        'Message.receiver_id' => $receiverId
+                    ],
+                    [
+                        'Message.sender_id' => $receiverId,
+                        'Message.receiver_id' => $senderId
+                    ]
+                ];
+            }else{
+                $condition = [
+                    ['Message.sender_id' => $userId],
+                    ['Message.receiver_id' => $userId]
+                ];
+                $group = 'receiver_id';
+            }
 
             try {
                 $messages = $this->Message->find(
                     'all',
                     [
                         'conditions' => [
-                            'OR' => [
-                                ['Message.sender_id' => $userId],
-                                ['Message.receiver_id' => $userId]
-                            ]
+                            'OR' => $condition
                         ],
+                        'group' => $group,
                         'order' => ['Message.created DESC'],
                         'limit' => $limit,
                         'offset' => $offset,
@@ -369,11 +396,9 @@ class ApiController extends AppController
 
             $totalCount = $this->Message->find('count', [
                 'conditions' => [
-                    'OR' => [
-                        ['Message.sender_id' => $userId],
-                        ['Message.receiver_id' => $userId]
-                    ]
+                    'OR' => $condition,
                 ],
+                'group' => $group,
                 'order' => ['Message.created DESC'],
             ]);
 
@@ -406,7 +431,7 @@ class ApiController extends AppController
             ));
         }
     }
-    
+
     // END API MESSAGES
 
     // GET API

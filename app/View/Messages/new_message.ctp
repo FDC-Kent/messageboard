@@ -4,7 +4,7 @@
         echo $this->Form->create('Message',
             array( 'url' => array(
                 'controller' => 'api',
-                'action' => 'sendMessage'
+                'action' => 'postMessage'
             ))
         );
 
