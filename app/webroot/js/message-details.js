@@ -78,16 +78,16 @@ $(document).ready(function () {
                     }
                     
                     if(USER_ID != item.Message.sender_id || USER_ID != item.Message.receiver_id ){
-                        name = item.Receiver.name;
-                        if(item.Receiver.UserProfile.img_url){
-                            imgUrl = BASE_URL +'img/uploads/'+ item.Receiver.UserProfile.img_url;
+                        name = item.Sender.name;
+                        if(item.Sender.UserProfile.img_url){
+                            imgUrl = BASE_URL +'img/uploads/'+ item.Sender.UserProfile.img_url;
                         }else{
                             imgUrl = BASE_URL +  "img/default-img.jpeg"
                         }
                     }else{
-                        name = item.Sender.name;
-                        if(item.Sender.UserProfile.img_url){
-                            imgUrl = BASE_URL +'img/uploads/'+ item.Sender.UserProfile.img_url;
+                        name = item.Receiver.name;
+                        if(item.Receiver.UserProfile.img_url){
+                            imgUrl = BASE_URL +'img/uploads/'+ item.Receiver.UserProfile.img_url;
                         }else{
                             imgUrl = BASE_URL +  "img/default-img.jpeg"
                         }
