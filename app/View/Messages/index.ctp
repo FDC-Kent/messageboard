@@ -16,14 +16,19 @@
         <!-- Example messages -->
         <div class="row">
             <div class="col-md-10 mx-auto" id="message-list">
-
+                <div class="d-flex justify-content-center align-items-center spinner-msg">
+                    <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 
     <div class="text-center mb-3">
-        <button class="btn btn-primary mt-4" id="view-more">Show more</button>
+        <button class="btn btn-primary mt-4 d-none" id="view-more">Show more</button>
     </div>
 </div>
 

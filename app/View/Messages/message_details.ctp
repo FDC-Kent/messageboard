@@ -43,28 +43,22 @@
                 'id' => 'search-msg'
             )
         );
-
-        echo $this->Form->button(
-            'search',
-            array(
-                'type' => 'button',
-                'class' => 'btn btn-primary my-3',
-                'id' => 'btn-message-search'
-            ),
-        );
-        
         ?>
        
         <hr>
         <div class="row">
-            <div class="col-md-10 mx-auto" id="message-list">
-
+            <div class="col-md-10 mx-auto message-reply-list" id="message-list">
+            <div class="d-flex justify-content-center align-items-center spinner-msg">
+                <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="text-center mb-3">
-        <button type="button" class="btn btn-primary mt-4" id="view-more">Show more</button>
+        <button type="button" class="btn btn-primary mt-4 d-none" id="view-more">Show more</button>
     </div>
 </div>
 

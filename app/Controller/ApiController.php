@@ -404,7 +404,7 @@ class ApiController extends AppController
                 $this->response->body(json_encode(
                     array(
                         'status' => 'success',
-                        'message' => 'Send message successfully.',
+                        'message' => 'erro fetching data.',
                         'error' => $error,
                     )
                 ));
@@ -424,7 +424,7 @@ class ApiController extends AppController
                 $this->response->body(json_encode(
                     array(
                         'status' => 'success',
-                        'message' => 'Send message successfully.',
+                        'message' => 'fetch data successfully.',
                         'data' => $messages,
                         'totalCount' => $totalCount
                     )
@@ -449,110 +449,58 @@ class ApiController extends AppController
         }
     }
 
-    public function getAllLatestMessages()
-    {
-        $user_id = $this->Auth->user('id'); // Example user ID
+    public function deleteMessage($id){
+        if($this->request->is('get')){
+            throw new MethodNotAllowedException();
+        }
 
-        $latestConversations = $this->Message->find('all', array(
-            // 'fields' => array(
-            //     'Message.*',
-            //     'Sender.*',
-            //     'Receiver.*',
-            // ),
-            'conditions' => array(
-                $user_id . ' IN (Sender.id, Receiver.id)',
-                'Message.id IN (
-                SELECT 
-                    MAX(id) 
-                FROM 
-                    messages 
-                WHERE 
-                    sender_id = Message.sender_id AND receiver_id = Message.receiver_id
-                    OR sender_id = Message.receiver_id AND receiver_id = Message.sender_id
-                GROUP BY 
-                    LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id)
-            )'
-            ),
-            'contain' => array(
-                'Sender' => array(
-                    'UserProfile'
-                ),
-                'Receiver' => array(
-                    'UserProfile'
-                )
-            ),
-            'order' => 'Message.created DESC',
-            'recursive' => 2,
-
-        ));
-
-        if (isset($latestConversations)) {
+        if($this->Message->delete($id)){
             $this->response->statusCode(200);
             $this->response->body(json_encode(
                 array(
                     'status' => 'success',
-                    'message' => 'Send message successfully.',
-                    'data' => $latestConversations,
+                    'message' => 'Message successfully deleted.',
                 )
             ));
-        } else {
+        }else{
             $this->response->statusCode(400);
             $this->response->body(json_encode(
                 array(
                     'status' => 'error',
-                    'message' => 'check parameter',
+                    'message' => 'Unable to delete message.',
                 )
             ));
         }
     }
 
-    public function getMessage()
-    {
-        $sender_id = 1; // Example sender ID
-        $receiver_id = 2; // Example receiver ID
+    public function deleteAllMessages($senderId, $receiverId){
+        if($this->request->is('get')){
+            throw new MethodNotAllowedException();
+        }
 
-        $result = $this->Message->find('first', array(
-            'conditions' => array(
-                'OR' => array(
-                    array(
-                        'Message.sender_id' => $sender_id,
-                        'Message.receiver_id' => $receiver_id
-                    ),
-                    array(
-                        'Message.sender_id' => $receiver_id,
-                        'Message.receiver_id' => $sender_id
-                    )
-                )
-            ),
-            'order' => 'Message.created DESC'
-        ));
-
-
-        if (isset($result)) {
+        if($this->Message->deleteAll(
+            ['OR' => 
+                [
+                    ['sender_id' => $senderId, 'receiver_id' => $receiverId],
+                    ['sender_id' => $receiverId, 'receiver_id' => $senderId]
+                ]
+            ]
+        )){
             $this->response->statusCode(200);
             $this->response->body(json_encode(
                 array(
                     'status' => 'success',
-                    'message' => 'fetch data successfully.',
-                    'data' => $result,
+                    'message' => 'Message successfully deleted.',
                 )
             ));
-        } else {
+        }else{
             $this->response->statusCode(400);
             $this->response->body(json_encode(
                 array(
                     'status' => 'error',
-                    'message' => 'check parameter',
+                    'message' => 'Unable to delete message.',
                 )
             ));
         }
-    }
-
-    // END API MESSAGES
-
-    // GET API
-
-    public function getProfiles()
-    {
     }
 }

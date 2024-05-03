@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     $('#receiverId').select2({
         templateResult: function(data) {
-            if (!data.id) { console.log(data);return data.text; }
+            if (!data.id) { return data.text; }
             var img;
            
             if(!data.element.dataset.img){
@@ -32,11 +32,11 @@ $(document).ready(function(){
                 img = BASE_URL + 'img/uploads/'+ data.element.dataset.img;
             }
 
-            var $result = $("<span><img height='25px' width='25px' src=" + img + " class='img-option' me-2 />" + data.text + "</span>");
+            var $result = $("<span><img height='30px' width='30px' src=" + img + " class='img-option me-2' />" + data.text + "</span>");
             return $result;
         },
         templateSelection: function (data) {
-          if (!data.id) { console.log(data);return data.text; }
+          if (!data.id) { return data.text; }
           var img;
 
           if(!data.element.dataset.img){
@@ -45,7 +45,7 @@ $(document).ready(function(){
                 img = BASE_URL + 'img/uploads/'+ data.element.dataset.img;
             }
 
-          var $span = $("<span><img height='25px' width='25px' src=" + img + " class='img-option me-2' />" + data.text + "</span>");
+          var $span = $("<span><img height='25px' width='25px' src=" + img + " class='img-option pe-1' /><span>" + data.text + "</span>");
           return $span;
         }
     });

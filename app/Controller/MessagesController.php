@@ -9,14 +9,6 @@ class MessagesController extends AppController
         'Message'
     );
 
-    public function list()
-    {
-        $userId = $this->Auth->user('id');
-
-        $messages = $this->Message->find('all', [
-            'conditions' => ['sender_id' => $userId]
-        ]);
-    }
     public function index()
     {
         $userId = $this->Auth->user('id');
@@ -37,9 +29,6 @@ class MessagesController extends AppController
 
     public function messageDetails()
     {   
-        // $this->User->recursive = 2;
-        // $message = $this->Message->findById($id);
-
-        // $this->set('user', $message);
+        // message details
     }
 }

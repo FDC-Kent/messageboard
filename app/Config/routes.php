@@ -50,6 +50,8 @@
 	Router::connect('/api/message', array('controller' => 'api', 'action' => 'getMessages'));
 	Router::connect('/api/message/latest', array('controller' => 'api', 'action' => 'getAllLatestMessages'));
 	Router::connect('/api/message/send', array('controller' => 'api', 'action' => 'postMessage'));
+	Router::connect('/api/message/delete/:id', array('controller' => 'api', 'action' => 'deleteMessage'),array('pass' => ['id']));
+	Router::connect('/api/message/delete/all/:sender/:receiver', array('controller' => 'api', 'action' => 'deleteAllMessages'),array('pass' => ['sender', 'receiver']));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

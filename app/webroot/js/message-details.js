@@ -8,17 +8,23 @@ $(document).ready(function () {
         getMessages(1,count);
     });
 
-    $('#btn-message-search').on('click', function(e){
+    $('#search-msg').on('change, keypress, keyup', function(e){
         getMessages(1,10);
     });
 
     $('#reply-message-form').on('submit', function(e){
         e.preventDefault();
-
+        $this = $(this);
         var urlParams = getUrlParams();
         var formData = $(this).serialize();
-        
-        formData += '&data[Message][receiver_id][]='+urlParams.receiver_id;
+        var receiverId;
+
+        if(urlParams.receiver_id == USER_ID){
+            receiverId = urlParams.sender_id;
+        }else{
+            receiverId = urlParams.receiver_id;
+        }
+        formData += '&data[Message][receiver_id][]='+receiverId;
 
         $.ajax({
             url: BASE_URL + 'api/message/send',
@@ -27,6 +33,7 @@ $(document).ready(function () {
             success: function(response) {
                 if(response.status == 'success'){
                     getMessages(1,10);
+                    $this[0].reset();
                 }
             },
             error: function(xhr, status, error) {
@@ -58,40 +65,55 @@ $(document).ready(function () {
             success: function (res) {
                 var markup = '',
                     data = res.data,
-                    img_url = '';
+                    imgUrl = '';
 
+                var name = '';
                 var status = false;
 
                 for(let item of data){
-                    if(item.Receiver.UserProfile.img_url){
-                            img_url = BASE_URL +'img/uploads/'+ item.Receiver.UserProfile.img_url;
-                    }else{
-                            img_url = BASE_URL +  "img/default-img.jpeg"
-                    }
-
-                    if(queryParams.sender_id == item.Sender.id){
-                        status = 'sent';
-                    }else{
+                    if(USER_ID != item.Message.sender_id){
                         status = 'received';
+                    }else{
+                        status = 'sent';
                     }
                     
-                    markup += '<div>'+
+                    if(USER_ID != item.Message.sender_id || USER_ID != item.Message.receiver_id ){
+                        name = item.Receiver.name;
+                        if(item.Receiver.UserProfile.img_url){
+                            imgUrl = BASE_URL +'img/uploads/'+ item.Receiver.UserProfile.img_url;
+                        }else{
+                            imgUrl = BASE_URL +  "img/default-img.jpeg"
+                        }
+                    }else{
+                        name = item.Sender.name;
+                        if(item.Sender.UserProfile.img_url){
+                            imgUrl = BASE_URL +'img/uploads/'+ item.Sender.UserProfile.img_url;
+                        }else{
+                            imgUrl = BASE_URL +  "img/default-img.jpeg"
+                        }
+                    }
+                    
+                    markup += '<div class="position-relative">'+
                                     '<div class="message-card ' + status + '">'+
                                         '<div class="card">'+
                                             '<div class="card-body d-flex align-items-center justify-content-start">'+
-                                            '<img height="50px" width="50px" src="' + img_url + '" alt="User Image" class="me-2"> '+
+                                            '<img height="50px" width="50px" src="' + imgUrl + '" alt="User Image" class="me-2"> '+
                                             '<div class="flex-grow-1">'+
                                                 '<p class="mb-1 message-text">"' + item.Message.content + '"</p>'+
                                                 '<div class="d-flex justify-content-between align-items-center">'+
-                                                    '<small class="text-muted">' + item.Sender.name + '</small>'+
+                                                    '<small class="text-muted">' + name + '</small>'+
                                                     '<small class="text-muted">' + timeAgo(item.Message.created) + '</small>'+
                                                 '</div>'+
                                             '</div>'+
                                             '</div>'+
                                         '</div>'+
                                     '</div>'+
+                                    '<div>'+
+                                        '<button type="button" data-id="' + item.Message.id + '" class="btn btn-danger position-absolute btn-msg-delete">delete</button>'+
+                                    '</div>'+
                                 '</div>';
                 }
+                
                 if(data.length == 0){
                     $('#message-list').html('<p class="mt-5 bg-light text-center p-5">No message available.</p>');
                 }else{
@@ -103,6 +125,11 @@ $(document).ready(function () {
                 }else{
                     $('#view-more').removeClass('d-none');
                 }
+
+                $('#message-list .btn-msg-delete').on('click', function(e){
+                    e.preventDefault();
+                    deleteMessage($(this).data('id'));
+                })
             },
             error: function (err) {
                 console.log(err)
@@ -122,4 +149,21 @@ $(document).ready(function () {
         }
         return params;
     }
+
+    function deleteMessage(msgId) {
+        $.ajax({
+          url: BASE_URL + 'api/message/delete/'+ msgId, 
+          type: 'POST',
+          dataType: 'json',
+          followRedirects: false, 
+          success: function(response) {
+            console.log(response);
+            getMessages(1,10);
+            console.log('Message deleted successfully');
+          },
+          error: function(xhr, status, error) {
+            console.error('Error deleting message:', error);
+          }
+        });
+      }
 });
